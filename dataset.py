@@ -15,7 +15,7 @@ def getRandomData():
     possibility1 = np.random.rand(total_product_no)
     possibility2 = np.random.rand(total_product_no)
     data = []
-    for i in range(data_no):
+    for _ in range(data_no):
         itemset = []
         possibility_first = np.random.rand()
         possibility_other = np.random.rand(total_product_no)
@@ -30,3 +30,23 @@ def getRandomData():
                     itemset.append(j)
         data.append(itemset)
     return data
+
+def preprocess(data):
+    itemsets = []
+    for i in range(len(data)):
+        itemset = set(data[i])    # remove duplicate elements
+        itemsets.append(itemset)
+    return itemsets
+
+def print_rules(rules):
+    print('Association Rules:')
+    for rule in rules:
+        print('%s ==> %s' % (rule[0], rule[1]))
+
+def print_frequent_itemset(result):
+    print('Frequent Itemset:')
+    for s in result:
+        setstr = ''
+        for item in s:
+            setstr += str(item) + ' '
+        print(setstr)

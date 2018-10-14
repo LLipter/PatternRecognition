@@ -1,35 +1,8 @@
-from dataset import getSimpleTestData,getRandomData
-
-def preprocess(data):
-    itemsets = []
-    for i in range(len(data)):
-        itemset = set(data[i])    # remove duplicate elements
-        itemsets.append(itemset)
-    return itemsets
-
-def getSupport(dataset, itemsets, minSupport):
-    support = {}
-    for data in dataset:
-        for itemset in itemsets:
-            listItemset = list(itemset)
-            listItemset.sort()
-            tupleItemset = tuple(listItemset) 
-            if itemset.issubset(data):
-                support[tupleItemset] = support.get(tupleItemset,0) + 1
-    return {itemset:count for itemset,count in support.items() if count >= minSupport}
-
-def print_rules(rules):
-    print('Association Rules:')
-    for rule in rules:
-        print('%s ==> %s' % (rule[0], rule[1]))
-
-def print_frequent_itemset(result):
-    print('Frequent Itemset:')
-    for s in result:
-        setstr = ''
-        for item in s:
-            setstr += str(item) + ' '
-        print(setstr)
+from dataset import getSimpleTestData
+from dataset import getRandomData
+from dataset import preprocess
+from dataset import print_rules
+from dataset import print_frequent_itemset
 
 def isJoinable(s1, s2):
     if len(s1) != len(s2):
@@ -54,8 +27,18 @@ def getAllSubsets(itemset):
     for i in range(len(result)):
         result[i].sort()
     return result
-    
 
+def getSupport(dataset, itemsets, minSupport):
+    support = {}
+    for data in dataset:
+        for itemset in itemsets:
+            listItemset = list(itemset)
+            listItemset.sort()
+            tupleItemset = tuple(listItemset) 
+            if itemset.issubset(data):
+                support[tupleItemset] = support.get(tupleItemset,0) + 1
+    return {itemset:count for itemset,count in support.items() if count >= minSupport}
+    
 def getAssociaionRules(frequent_itemset, support, minConfidenceRatio):
     rules = []
     for itemset in frequent_itemset:
@@ -67,7 +50,6 @@ def getAssociaionRules(frequent_itemset, support, minConfidenceRatio):
                 print('%s ==> %s' % (tuple(subset), tuple(diffset)))
                 rules.append((tuple(subset),tuple(diffset)))
     return rules
-
 
 def apriori(dataset, minSupportRatio, minConfidenceRatio):
     dataset = preprocess(dataset)
@@ -95,18 +77,13 @@ def apriori(dataset, minSupportRatio, minConfidenceRatio):
     rules = getAssociaionRules(frequent_itemset, support, minConfidenceRatio)
     return frequent_itemset, rules
 
-
-
-
-
 if __name__ =='__main__':
     # data = getSimpleTestData()
     data = getRandomData()
-    # print(data)
     frequent_itemset, rules = apriori(data,0.7,0.7)
     
     print_frequent_itemset(frequent_itemset)
-    # print_rules(rules)
+    print_rules(rules)
     print(len(frequent_itemset))
     print(len(rules))
 
