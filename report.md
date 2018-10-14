@@ -2,6 +2,19 @@
 
 Skewness is asymmetry in a statistical distribution, in which the curve appears distorted or skewed either to the left or to the right. Skewness can be quantified to define the extent to which a distribution differs from a normal distribution.
 
+### Formula
+
+~~~python
+# function to compute skewness of given data
+def skewness(data):
+    mu =  np.mean(data)
+    sigma = np.std(data)
+    skew = (data - mu) / sigma
+    skew = skew ** 3
+    skew = np.sum(skew) / len(data)
+    return skew
+~~~
+
 ### Symmetric Distribution
 
 ![](symmetric.png)
