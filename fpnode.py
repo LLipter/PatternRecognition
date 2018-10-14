@@ -1,6 +1,6 @@
 class Fpnode:
     def __init__(self, item='root'):
-        self.item = id
+        self.item = item
         self.pa = None
         self.child = {}
         self.count = 0

@@ -38,15 +38,3 @@ def preprocess(data):
         itemsets.append(itemset)
     return itemsets
 
-def print_rules(rules):
-    print('Association Rules:')
-    for rule in rules:
-        print('%s ==> %s' % (rule[0], rule[1]))
-
-def print_frequent_itemset(result):
-    print('Frequent Itemset:')
-    for s in result:
-        setstr = ''
-        for item in s:
-            setstr += str(item) + ' '
-        print(setstr)

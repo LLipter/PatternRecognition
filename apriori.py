@@ -1,8 +1,11 @@
 from dataset import getSimpleTestData
 from dataset import getRandomData
 from dataset import preprocess
-from dataset import print_rules
-from dataset import print_frequent_itemset
+from util import print_rules
+from util import print_frequent_itemset
+from util import getAllSubsets
+import numpy as np
+
 
 def isJoinable(s1, s2):
     if len(s1) != len(s2):
@@ -16,17 +19,7 @@ def isJoinable(s1, s2):
         return False
     return True
 
-def getAllSubsets(itemset):
-    if len(itemset) == 0:
-        return []
-    result = [[]]
-    for item in itemset:
-        newSet = [ oldSet + [item] for oldSet in result]
-        result.extend(newSet)
-    result = result[1:-1] # remove empty subset and itemset itself
-    for i in range(len(result)):
-        result[i].sort()
-    return result
+
 
 def getSupport(dataset, itemsets, minSupport):
     support = {}
@@ -39,6 +32,7 @@ def getSupport(dataset, itemsets, minSupport):
                 support[tupleItemset] = support.get(tupleItemset,0) + 1
     return {itemset:count for itemset,count in support.items() if count >= minSupport}
     
+
 def getAssociaionRules(frequent_itemset, support, minConfidenceRatio):
     rules = []
     for itemset in frequent_itemset:
@@ -79,8 +73,9 @@ def apriori(dataset, minSupportRatio, minConfidenceRatio):
 
 if __name__ =='__main__':
     # dataset = getSimpleTestData()
+    np.random.seed(0)
     dataset = getRandomData()
-    frequent_itemset, rules = apriori(dataset,0.7,0.7)
+    frequent_itemset, rules = apriori(dataset,0.6,0.6)
     
     print_frequent_itemset(frequent_itemset)
     print_rules(rules)
