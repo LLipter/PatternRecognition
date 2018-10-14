@@ -12,7 +12,9 @@ def getSupport(dataset, itemsets, minSupport):
     support = {}
     for data in dataset:
         for itemset in itemsets:
-            tupleItemset = tuple(itemset)
+            listItemset = list(itemset)
+            listItemset.sort()
+            tupleItemset = tuple(listItemset) 
             if itemset.issubset(data):
                 support[tupleItemset] = support.get(tupleItemset,0) + 1
     return {itemset:count for itemset,count in support.items() if count >= minSupport}
@@ -49,7 +51,10 @@ def getAllSubsets(itemset):
     for item in itemset:
         newSet = [ oldSet + [item] for oldSet in result]
         result.extend(newSet)
-    return result[1:-1] # remove empty subset and itemset itself
+    result = result[1:-1] # remove empty subset and itemset itself
+    for i in range(len(result)):
+        result[i].sort()
+    return result
     
 
 def getAssociaionRules(frequent_itemset, support, minConfidenceRatio):
@@ -60,6 +65,7 @@ def getAssociaionRules(frequent_itemset, support, minConfidenceRatio):
             confidence = support[tuple(itemset)] / support[tuple(subset)]
             if confidence >= minConfidenceRatio:
                 diffset = set(itemset).difference(set(subset))
+                print('%s ==> %s' % (tuple(subset), tuple(diffset)))
                 rules.append((tuple(subset),tuple(diffset)))
     return rules
 
@@ -75,7 +81,9 @@ def apriori(dataset, minSupportRatio, minConfidenceRatio):
     minSupport = int(minSupportRatio * len(dataset))
     while True:
         L = getSupport(dataset, itemsets, minSupport)
+        # print(L)
         support.update(L)
+        # print(support)
         if len(L.items()) == 0: 
             break
         frequent_itemset.extend(L.keys())
@@ -122,12 +130,17 @@ def getRandomData():
 
 
 if __name__ =='__main__':
-    data = getSimpleTestData()
-    # data = getRandomData()
+    # data = getSimpleTestData()
+    data = getRandomData()
     # print(data)
-    frequent_itemset, rules = apriori(data,0.5,0.5)
+    frequent_itemset, rules = apriori(data,0.6,0.6)
     
     print_frequent_itemset(frequent_itemset)
     print_rules(rules)
+    print(len(frequent_itemset))
+    print(len(rules))
+
+
+
 
 
