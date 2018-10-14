@@ -78,9 +78,9 @@ def apriori(dataset, minSupportRatio, minConfidenceRatio):
     return frequent_itemset, rules
 
 if __name__ =='__main__':
-    # data = getSimpleTestData()
-    data = getRandomData()
-    frequent_itemset, rules = apriori(data,0.7,0.7)
+    # dataset = getSimpleTestData()
+    dataset = getRandomData()
+    frequent_itemset, rules = apriori(dataset,0.7,0.7)
     
     print_frequent_itemset(frequent_itemset)
     print_rules(rules)
