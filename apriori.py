@@ -17,7 +17,13 @@ def getSupport(dataset, itemsets, minSupport):
                 support[tupleItemset] = support.get(tupleItemset,0) + 1
     return {itemset:count for itemset,count in support.items() if count >= minSupport}
 
-def printResult(result):
+def print_rules(rules):
+    print('Association Rules:')
+    for rule in rules:
+        print('%s ==> %s' % (rule[0], rule[1]))
+
+def print_frequent_itemset(result):
+    print('Frequent Itemset:')
     for s in result:
         setstr = ''
         for item in s:
@@ -36,26 +42,51 @@ def isJoinable(s1, s2):
         return False
     return True
 
+def getAllSubsets(itemset):
+    if len(itemset) == 0:
+        return []
+    result = [[]]
+    for item in itemset:
+        newSet = [ oldSet + [item] for oldSet in result]
+        result.extend(newSet)
+    return result[1:-1] # remove empty subset and itemset itself
+    
 
-def apriori(dataset, minSupportRatio):
+def getAssociaionRules(frequent_itemset, support, minConfidenceRatio):
+    rules = []
+    for itemset in frequent_itemset:
+        subsets = getAllSubsets(itemset)
+        for subset in subsets:
+            confidence = support[tuple(itemset)] / support[tuple(subset)]
+            if confidence >= minConfidenceRatio:
+                diffset = set(itemset).difference(set(subset))
+                rules.append((tuple(subset),tuple(diffset)))
+    return rules
+
+
+def apriori(dataset, minSupportRatio, minConfidenceRatio):
     dataset = preprocess(dataset)
+    frequent_itemset = []
+    support = {}
     itemsets = set()
-    result = []
     for data in dataset:
         itemsets |= data
     itemsets = [set([itemset,]) for itemset in itemsets]
     minSupport = int(minSupportRatio * len(dataset))
     while True:
         L = getSupport(dataset, itemsets, minSupport)
+        support.update(L)
         if len(L.items()) == 0: 
             break
-        result.extend(L)
+        frequent_itemset.extend(L.keys())
         itemsets = []
         for set1 in L.keys():
             for set2 in L.keys():
                 if isJoinable(set1, set2):
                     itemsets.append(set(set1) | set(set2))
-    return result
+    
+    rules = getAssociaionRules(frequent_itemset, support, minConfidenceRatio)
+    return frequent_itemset, rules
 
 
 def getSimpleTestData():
@@ -68,9 +99,10 @@ def getSimpleTestData():
 def getRandomData():
     data_no = 10000
     total_product_no = 100
-    threshold = 0.60
+    threshold = 0.50
 
-    possibility = np.random.rand(total_product_no)
+    possibility1 = np.random.rand(total_product_no)
+    possibility2 = np.random.rand(total_product_no)
     data = []
     for i in range(data_no):
         itemset = []
@@ -79,20 +111,23 @@ def getRandomData():
         if possibility_first > threshold:
             itemset.append(0)
             for j in range(1,total_product_no):
-                if possibility_other[j] > possibility[j]:
+                if possibility_other[j] > possibility1[j]:
                     itemset.append(j)
         else:
             for j in range(1,total_product_no):
-                if possibility_other[j] < possibility[j]:
+                if possibility_other[j] > possibility2[j]:
                     itemset.append(j)
         data.append(itemset)
     return data
 
 
 if __name__ =='__main__':
-    # data = getSimpleTestData()
-    data = getRandomData()
+    data = getSimpleTestData()
+    # data = getRandomData()
     # print(data)
-    result = apriori(data,0.5)
-    printResult(result)
+    frequent_itemset, rules = apriori(data,0.5,0.5)
+    
+    print_frequent_itemset(frequent_itemset)
+    print_rules(rules)
+
 
