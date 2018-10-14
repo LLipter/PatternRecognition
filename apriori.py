@@ -1,3 +1,4 @@
+import numpy as np
 import matplotlib.pyplot as plt
 
 def preprocess(data):
@@ -64,10 +65,34 @@ def getSimpleTestData():
             [2,5]]
     return data
 
+def getRandomData():
+    data_no = 10000
+    total_product_no = 100
+    threshold = 0.60
 
+    possibility = np.random.rand(total_product_no)
+    data = []
+    for i in range(data_no):
+        itemset = []
+        possibility_first = np.random.rand()
+        possibility_other = np.random.rand(total_product_no)
+        if possibility_first > threshold:
+            itemset.append(0)
+            for j in range(1,total_product_no):
+                if possibility_other[j] > possibility[j]:
+                    itemset.append(j)
+        else:
+            for j in range(1,total_product_no):
+                if possibility_other[j] < possibility[j]:
+                    itemset.append(j)
+        data.append(itemset)
+    return data
 
 
 if __name__ =='__main__':
-
+    # data = getSimpleTestData()
+    data = getRandomData()
+    # print(data)
     result = apriori(data,0.5)
     printResult(result)
+
