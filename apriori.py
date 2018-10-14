@@ -7,17 +7,17 @@ def preprocess(data):
         itemsets.append(itemset)
     return itemsets
 
-def getSupport(itemsets, keys, minSupport):
+def getSupport(dataset, itemsets, minSupport):
     support = {}
-    for itemset in itemsets:
-        for key in keys:
-            tupleKey = tuple(key)
-            if key.issubset(itemset):
-                support[tupleKey] = support.get(tupleKey,0) + 1
-    return {key:count for key,count in support.items() if count >= minSupport}
+    for data in dataset:
+        for itemset in itemsets:
+            tupleItemset = tuple(itemset)
+            if itemset.issubset(data):
+                support[tupleItemset] = support.get(tupleItemset,0) + 1
+    return {itemset:count for itemset,count in support.items() if count >= minSupport}
 
-def printSets(L):
-    for s in L:
+def printResult(result):
+    for s in result:
         setstr = ''
         for item in s:
             setstr += str(item) + ' '
@@ -36,33 +36,38 @@ def isJoinable(s1, s2):
     return True
 
 
-def apriori(data, minSupportRatio):
-    data = preprocess(data)
-    keys = set()
-    for itemset in data:
-        keys |= itemset
-    keys = [set([key,]) for key in keys]
-    minSupport = int(minSupportRatio * len(data))
-    L = getSupport(data, keys, minSupport)  # L1
+def apriori(dataset, minSupportRatio):
+    dataset = preprocess(dataset)
+    itemsets = set()
+    result = []
+    for data in dataset:
+        itemsets |= data
+    itemsets = [set([itemset,]) for itemset in itemsets]
+    minSupport = int(minSupportRatio * len(dataset))
     while True:
-        printSets(L)
-        keys = []
+        L = getSupport(dataset, itemsets, minSupport)
+        if len(L.items()) == 0: 
+            break
+        result.extend(L)
+        itemsets = []
         for set1 in L.keys():
             for set2 in L.keys():
                 if isJoinable(set1, set2):
-                    keys.append(set(set1) | set(set2))
-        L = getSupport(data, keys, minSupport)
-        if len(L.items()) == 0: 
-            break
-
-    
+                    itemsets.append(set(set1) | set(set2))
+    return result
 
 
-
-if __name__ =='__main__':
+def getSimpleTestData():
     data = [[1,3,4],
             [2,3,5],
             [1,2,3,5],
             [2,5]]
+    return data
 
-    apriori(data,0.5)
+
+
+
+if __name__ =='__main__':
+
+    result = apriori(data,0.5)
+    printResult(result)
