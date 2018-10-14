@@ -4,7 +4,9 @@ from dataset import preprocess
 from util import print_rules
 from util import print_frequent_itemset
 from util import getAllSubsets
+from util import getAssociaionRules
 import numpy as np
+
 
 
 def isJoinable(s1, s2):
@@ -32,19 +34,6 @@ def getSupport(dataset, itemsets, minSupport):
                 support[tupleItemset] = support.get(tupleItemset,0) + 1
     return {itemset:count for itemset,count in support.items() if count >= minSupport}
     
-
-def getAssociaionRules(frequent_itemset, support, minConfidenceRatio):
-    rules = []
-    for itemset in frequent_itemset:
-        subsets = getAllSubsets(itemset)
-        for subset in subsets:
-            confidence = support[tuple(itemset)] / support[tuple(subset)]
-            if confidence >= minConfidenceRatio:
-                diffset = set(itemset).difference(set(subset))
-                print('%s ==> %s' % (tuple(subset), tuple(diffset)))
-                rules.append((tuple(subset),tuple(diffset)))
-    return rules
-
 def apriori(dataset, minSupportRatio, minConfidenceRatio):
     dataset = preprocess(dataset)
     frequent_itemset = []
@@ -72,7 +61,7 @@ def apriori(dataset, minSupportRatio, minConfidenceRatio):
     return frequent_itemset, rules
 
 if __name__ =='__main__':
-    # dataset = getSimpleTestData()
+    dataset = getSimpleTestData()
     np.random.seed(0)
     dataset = getRandomData()
     frequent_itemset, rules = apriori(dataset,0.6,0.6)

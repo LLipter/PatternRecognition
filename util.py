@@ -1,9 +1,11 @@
 def print_rules(rules):
+    rules.sort()
     print('Association Rules:')
     for rule in rules:
         print('%s ==> %s' % (rule[0], rule[1]))
 
 def print_frequent_itemset(result):
+    result.sort()
     print('Frequent Itemset:')
     for s in result:
         setstr = ''
@@ -22,3 +24,15 @@ def getAllSubsets(itemset):
     for i in range(len(result)):
         result[i].sort()
     return result
+
+def getAssociaionRules(frequent_itemset, support, minConfidenceRatio):
+    rules = []
+    for itemset in frequent_itemset:
+        subsets = getAllSubsets(itemset)
+        for subset in subsets:
+            confidence = support[tuple(itemset)] / support[tuple(subset)]
+            if confidence >= minConfidenceRatio:
+                diffset = set(itemset).difference(set(subset))
+                print('%s ==> %s' % (tuple(subset), tuple(diffset)))
+                rules.append((tuple(subset),tuple(diffset)))
+    return rules
