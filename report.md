@@ -149,3 +149,7 @@ plt.ylabel('Number of Association Rules')
 plt.savefig('support30')
 plt.show()
 ~~~
+
+![](run_result.png)
+
+As showed in the running result, given confidence equals 80%, the number of association rules is greater than 20 when support ratio is 40%. At this point, there're 23 rules exist.
