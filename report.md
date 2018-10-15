@@ -61,3 +61,33 @@ Brach 1 is basically symmetric distributed, ranging from $40 to $155 approximate
 # Q-Q Plot
 
 Compute percentile instead of actual data to draw Q-Q plot.
+
+# Association Analysis
+
+### Algorithm for Generating Random Data
+
+~~~python
+def getRandomData():
+    data_no = 10000
+    total_product_no = 100
+    threshold = 0.50
+
+    possibility1 = np.random.normal(0.45, 0.2, total_product_no)
+    possibility2 = np.random.normal(0.45, 0.2, total_product_no)
+    data = []
+    for _ in range(data_no):
+        itemset = []
+        possibility_first = np.random.rand()
+        possibility_other = np.random.rand(total_product_no)
+        if possibility_first > threshold:
+            itemset.append(0)
+            for j in range(1, total_product_no):
+                if possibility_other[j] < possibility1[j]:
+                    itemset.append(j)
+        else:
+            for j in range(1, total_product_no):
+                if possibility_other[j] < possibility2[j]:
+                    itemset.append(j)
+        data.append(itemset)
+    return data
+~~~
