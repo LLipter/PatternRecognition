@@ -8,8 +8,8 @@ import numpy as np
     sex: binary, 1 represents male, 0 represents female
     is_married: binary
     ethnic: nominal
-    hair_color: nomial
-    eye_color: nomial
+    hair_color: nominal
+    eye_color: nominal
     education_background: ordinal
 '''
 
