@@ -5,6 +5,7 @@ from util import print_rules
 from util import print_frequent_itemset
 from util import getAllSubsets
 from util import getAssociaionRules
+from apriori import apriori
 from fpnode import Fpnode
 import numpy as np
 
@@ -104,12 +105,12 @@ def fpgrowth(dataset, minSupportRatio, minConfidenceRatio):
     rules = getAssociaionRules(frequent_itemset, support, minConfidenceRatio)
     return frequent_itemset,rules
 
-if __name__ =='__main__':
-    dataset = getSimpleTestData()
+if __name__ == '__main__':
+    # dataset = getSimpleTestData()
     np.random.seed(0)
     dataset = getRandomData()
 
-    frequent_itemset, rules = fpgrowth(dataset,0.6,0.6)
+    frequent_itemset, rules = fpgrowth(dataset,0.30,0.8)
     print_frequent_itemset(frequent_itemset)
     print_rules(rules)
     print(len(frequent_itemset))

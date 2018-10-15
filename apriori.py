@@ -60,7 +60,7 @@ def apriori(dataset, minSupportRatio, minConfidenceRatio):
     rules = getAssociaionRules(frequent_itemset, support, minConfidenceRatio)
     return frequent_itemset, rules
 
-if __name__ =='__main__':
+if __name__ == '__main__':
     dataset = getSimpleTestData()
     np.random.seed(0)
     dataset = getRandomData()

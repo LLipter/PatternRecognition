@@ -33,6 +33,5 @@ def getAssociaionRules(frequent_itemset, support, minConfidenceRatio):
             confidence = support[tuple(itemset)] / support[tuple(subset)]
             if confidence >= minConfidenceRatio:
                 diffset = set(itemset).difference(set(subset))
-                print('%s ==> %s' % (tuple(subset), tuple(diffset)))
                 rules.append((tuple(subset),tuple(diffset)))
     return rules
