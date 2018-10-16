@@ -13,9 +13,7 @@ def getRandomData():
     total_product_no = 100
     threshold = 0.50
 
-    # possibility1 = np.random.rand(total_product_no) * 0.8
     possibility1 = np.random.normal(0.45,0.2,total_product_no)
-    # possibility2 = np.random.rand(total_product_no)
     possibility2 = np.random.normal(0.45,0.2,total_product_no)
     data = []
     for _ in range(data_no):

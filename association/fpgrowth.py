@@ -110,7 +110,7 @@ if __name__ == '__main__':
     np.random.seed(0)
     dataset = getRandomData()
 
-    frequent_itemset, rules = fpgrowth(dataset,0.30,0.8)
+    frequent_itemset, rules = fpgrowth(dataset,0.6,0.6)
     print_frequent_itemset(frequent_itemset)
     print_rules(rules)
     print(len(frequent_itemset))

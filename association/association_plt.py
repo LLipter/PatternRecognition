@@ -18,7 +18,7 @@ if __name__ == '__main__':
     plt.title('Given Confidence = 80%')
     plt.xlabel('Support Ratio')
     plt.ylabel('Number of Association Rules')
-    plt.savefig('confidence80')
+    plt.savefig('../assets/confidence80')
     plt.show()
 
     # x = np.linspace(0.5,0.8,30)
@@ -32,5 +32,5 @@ if __name__ == '__main__':
     # plt.title('Given Support Ratio = 30%')
     # plt.xlabel('Confidence')
     # plt.ylabel('Number of Association Rules')
-    # plt.savefig('support30')
+    # plt.savefig('../assets/support30')
     # plt.show()
