@@ -11,13 +11,14 @@ def skewness(data):
     return skew
 
 if __name__ =='__main__':
+    np.random.seed(0)
     # symmetric data
     data = np.random.normal(0,1,size=100000)
     skew = skewness(data)
     plt.hist(data,bins=500, density=1)
     plt.text(1,0.3,'skewness = 0.00',fontsize=12)
     plt.title("symmetric distribution")
-    plt.savefig("symmetric")
+    plt.savefig("assets/symmetric")
     plt.show()
 
 
@@ -28,7 +29,7 @@ if __name__ =='__main__':
     plt.hist(data,bins=500, density=1)
     plt.text(-1,0.3,'skewness = %.2f' % skew,fontsize=12)
     plt.title("positively skewed distribution")
-    plt.savefig("ps")
+    plt.savefig("assets/ps")
     plt.show()
     
 
@@ -39,5 +40,5 @@ if __name__ =='__main__':
     plt.hist(data,bins=500, density=1)
     plt.text(-2,0.3,'skewness = %.2f' % skew,fontsize=12)
     plt.title("negatively skewed distribution")
-    plt.savefig("ns")
+    plt.savefig("assets/ns")
     plt.show()
