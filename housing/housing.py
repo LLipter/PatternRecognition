@@ -44,7 +44,7 @@ if __name__ == '__main__':
     plt.xlabel('Size of House')
     plt.ylabel('Price')
     plt.title('Linear Regression Model on House Price Problem')
-    plt.savefig('house')
+    plt.savefig('../assets/house')
     plt.show()
 
 

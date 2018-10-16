@@ -186,6 +186,6 @@ As showed in the running result, given confidence equals 80%, the number of asso
 
 # House Price Problem
 
-![](house.png)
+![](assets/house.png)
 
-The figure above demonstrates the result of linear regression model on house price problem. As you can see, this simple model fit our data in some degree and the model converges very fast. However, this model comes with inevitable defects. It assumes the price of house only related to the size of house, which of course is an oversimplified model and is not practical in real situation. Also, the relation between features, like size of house, and price may not as simple as linear relation. They may more complex so that linear regression cannot fit properly. At this point, polynomial regression or even neural network algorithm should be taken into consideration. See details of codes in `house.py`
+The figure above demonstrates the result of linear regression model on house price problem. As you can see, this simple model fit our data in some degree and the model converges very fast. However, this model comes with inevitable defects. It assumes the price of house only related to the size of house, which of course is an oversimplified model and is not practical in real situation. Also, the relation between features, like size of house, and price may not as simple as linear relation. They may more complex so that linear regression cannot fit properly. At this point, polynomial regression or even neural network algorithm should be taken into consideration. See details of codes in `housing/housing.py`
