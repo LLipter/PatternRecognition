@@ -18,7 +18,7 @@ if __name__ == '__main__':
     one = np.ones(len(X))
     X = np.column_stack((X,one))
     W = np.random.randn(2,1)
-    learning_rate = 0.00005
+    learning_rate = 0.005
     
     # start training
     for i in range(1000):
@@ -28,6 +28,7 @@ if __name__ == '__main__':
         gradient = learning_rate * X * diff
         gradient = np.sum(gradient,axis=0) / gradient.shape[0]
         gradient = gradient.reshape((2,1))
+        gradient = gradient / X.shape[0]
         W = W - gradient
         if i % 10 == 0:
             print('step %d, loss = %.2f' % (i,loss))
